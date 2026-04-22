@@ -16,7 +16,8 @@ from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QGridLayout,
                               QLabel, QTableWidget, QTableWidgetItem, QPushButton,
                               QGroupBox, QFrame, QScrollArea, QStatusBar,
                               QHeaderView, QSplitter, QMessageBox, QComboBox,
-                              QProgressBar, QStyledItemDelegate, QStyle)
+                              QProgressBar, QStyledItemDelegate, QStyle,
+                              QPlainTextEdit)
 from PyQt5.QtCore import Qt, QTimer, pyqtSignal, QThread
 from PyQt5.QtGui import QImage, QPixmap, QFont, QColor, QPainter, QPen, QBrush, QIcon
 from PyQt5.QtChart import QChartView, QChart, QBarSeries, QBarSet, QValueAxis, QBarCategoryAxis
