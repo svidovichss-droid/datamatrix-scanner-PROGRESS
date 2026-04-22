@@ -1,0 +1,15 @@
+# DataMatrix Scanner - Runtime Dependencies
+# Author: А. Свидович / А. Петляков для PROGRESS
+
+# GUI Framework
+PyQt5>=5.15.0
+
+# Computer Vision
+opencv-python>=4.8.0
+
+# DataMatrix decoding
+pylibdmtx>=0.8.5
+
+# PyQt5 Charts for statistics
+PyQt5-Qt5>=5.15.0
+PyQt5-sip>=12.12.0
