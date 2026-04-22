@@ -169,4 +169,6 @@ datamatrix_scanner/
 
 ## Лицензия
 
+MIT License — см. файл [LICENSE](LICENSE)
+
 Авторские права: А. Свидович / А. Петляков для PROGRESS
