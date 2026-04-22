@@ -167,6 +167,101 @@ datamatrix_scanner/
 
 ---
 
+---
+
+## 📦 Сборка под Windows
+
+### Вариант 1: Автоматическая сборка через GitHub Actions (Рекомендуется)
+
+1. **Запушьте изменения** в ветку `main` или `master`
+2. **Или создайте тег версии**: `git tag v1.0.0 && git push origin v1.0.0`
+3. Перейдите на вкладку **Actions** в вашем репозитории на GitHub
+4. Выберите последний запуск **"Build DataMatrix Scanner EXE"**
+5. Скачайте артефакт **`DataMatrixScanner-win64.zip`** из раздела "Artifacts"
+
+Готовый EXE файл будет доступен для скачивания в течение 30 дней.
+
+---
+
+### Вариант 2: Локальная сборка на Windows
+
+#### Требования:
+- **Windows 10/11 x64**
+- **Python 3.10 - 3.12** (скачать с [python.org](https://www.python.org/downloads/))
+- **Visual C++ Redistributable** (обычно устанавливается с Python)
+
+#### Пошаговая инструкция:
+
+1. **Откройте PowerShell или Command Prompt от имени администратора**
+
+2. **Установите зависимости:**
+   ```bat
+   pip install --upgrade pip
+   pip install -r requirements.txt
+   pip install pyinstaller
+   ```
+
+3. **Проверьте установку библиотек:**
+   ```bat
+   python -c "import cv2; print(f'OpenCV: {cv2.__version__}')"
+   python -c "import pylibdmtx; print('pylibdmtx: OK')"
+   ```
+
+4. **Запустите сборку:**
+   ```bat
+   build.bat
+   ```
+   
+   **Или вручную через PyInstaller:**
+   ```bat
+   pyinstaller datamatrix_scanner.spec --clean --noconfirm
+   ```
+
+5. **Готовый файл** будет находиться в папке:
+   ```
+   dist\DataMatrixScanner\DataMatrixScanner.exe
+   ```
+
+---
+
+### 🔧 Решение проблем при сборке
+
+#### Ошибка: `ModuleNotFoundError: No module named 'cv2'`
+```bat
+pip uninstall opencv-python
+pip install opencv-python --force-reinstall
+```
+
+#### Ошибка: `ModuleNotFoundError: No module named 'pylibdmtx'`
+```bat
+pip install pylibdmtx==0.8.5
+```
+
+#### Ошибка: `libdmtx not found` (требуется для pylibdmtx)
+Установите предварительно скомпилированную версию:
+```bat
+pip install pylibdmtx --only-binary :all:
+```
+
+#### Ошибка при сборке с иконкой
+Убедитесь, что файл `icons\app.ico` существует. Если нет - удалите строку `icon='icons\\app.ico'` из файла `datamatrix_scanner.spec`
+
+---
+
+### 📁 Структура дистрибутива
+
+После успешной сборки вы получите:
+```
+dist/DataMatrixScanner/
+├── DataMatrixScanner.exe    # Основной исполняемый файл
+├── *.dll                     # Библиотеки
+├── src/
+│   └── config.json          # Файл конфигурации
+└── _internal/               # Внутренние файлы PyInstaller
+```
+
+---
+
 ## Лицензия
 
 MIT License — см. файл [LICENSE](LICENSE)
