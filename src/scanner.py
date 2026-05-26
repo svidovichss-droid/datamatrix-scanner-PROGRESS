@@ -101,6 +101,7 @@ class ScannerEngine:
             # Try to decode
             decoded_data = ""
             modules = None
+            online_used = False
             try:
                 from pylibdmtx import decode
                 results = decode(sq.roi, timeout=100, max_count=1)
@@ -108,9 +109,23 @@ class ScannerEngine:
                     decoded_data = results[0].data.decode('utf-8', errors='replace')
                     modules = self.detector.extract_modules(sq.roi, len(decoded_data))
             except ImportError:
-                decoded_data = "DM-DETECTED"
+                # Try online decoder as fallback
+                success, online_data, error = self.detector.decode_online(sq.roi)
+                if success:
+                    decoded_data = online_data
+                    online_used = True
+                    self._log(f"Онлайн-декодер: {decoded_data[:30]}")
+                else:
+                    decoded_data = "DM-DETECTED"
             except Exception:
-                decoded_data = ""
+                # Try online decoder as fallback
+                success, online_data, error = self.detector.decode_online(sq.roi)
+                if success:
+                    decoded_data = online_data
+                    online_used = True
+                    self._log(f"Онлайн-декодер: {decoded_data[:30]}")
+                else:
+                    decoded_data = ""
 
             # Assess quality
             result = self.assessor.assess(sq.roi, decoded_data, modules)

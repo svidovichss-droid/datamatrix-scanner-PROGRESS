@@ -125,6 +125,27 @@ class DataMatrixDetector:
             return len(results) > 0
         except ImportError:
             return self._structural_check(roi)
+    
+    def decode_online(self, roi: np.ndarray) -> tuple:
+        """
+        Try to decode DataMatrix using online services.
+        
+        Returns:
+            Tuple of (success: bool, decoded_data: str, error: str)
+        """
+        try:
+            from online_decoder import OnlineDataMatrixDecoder
+            decoder = OnlineDataMatrixDecoder(timeout=10)
+            result = decoder.decode(roi)
+            
+            if result.success:
+                return (True, result.data, "")
+            else:
+                return (False, "", result.error)
+        except ImportError:
+            return (False, "", "Online decoder not available")
+        except Exception as e:
+            return (False, "", str(e))
 
     def _structural_check(self, roi: np.ndarray) -> bool:
         """
